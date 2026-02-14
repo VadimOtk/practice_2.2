@@ -1,0 +1,31 @@
+import requests
+
+def check_url_status(url):
+    try:
+        response = requests.get(url)
+        code = response.status_code
+        if code in [200, 201, 202, 204, 301, 302, 304]:
+            status = "доступен"
+        elif code == 403:
+            status = "вход запрещен"
+        elif code in [404, 410]:
+            status = "не найден"
+        else:
+            status = "не доступен"
+
+        return f"{code} – {status}"
+
+    except requests.RequestException:
+        return "ошибка подключения – не доступен"
+
+urls = [
+    "https://github.com/",
+    "https://www.binance.com/en",
+    "https://tomtit.tomsk.ru/",
+    "https://jsonplaceholder.typicode.com/",
+    "https://moodle.tomtit-tomsk.ru/"
+]
+
+for url in urls:
+    result = check_url_status(url)
+    print(f"{url} – {result}")
